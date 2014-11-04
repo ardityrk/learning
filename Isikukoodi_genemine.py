@@ -1,12 +1,30 @@
 import random
 from datetime import date, timedelta
 
+
+def arvuta_kontroll_number(isikukood_ilma_kontrnr):
+    esimene_kaalud = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]
+    teine_kaalud = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]
+    esimese_kaalu_summa = 0
+    teise_kaalu_summa = 0
+
+    for arg in range(len(esimene_kaalud)):
+        esimese_kaalu_summa = esimese_kaalu_summa + (esimene_kaalud[arg] * int(isikukood_ilma_kontrnr[arg]))
+    if esimese_kaalu_summa % 11 != 10:
+        return esimese_kaalu_summa % 11
+    else:
+        for arg in range(len(teine_kaalud)):
+            teise_kaalu_summa = teise_kaalu_summa + (teine_kaalud[arg] * int(isikukood_ilma_kontrnr[arg]))
+        if teise_kaalu_summa % 11 != 10:
+            return teise_kaalu_summa % 11
+        else:
+            return 0
+
+
 def genereeri_isikukood():
     print("If thou brave, do proceed...for others http://no.nonsense.ee/isikukood.php ...")
 
     isikukood = ""
-    esimene_kaalud = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]
-    teine_kaalud = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]
 
     synni_sajand_map = {"18": ("1", "2"), "19": ("3", "4"), "20": ("5", "6"), "21": ("7", "8")}
 
@@ -23,23 +41,10 @@ def genereeri_isikukood():
 
     isikukood += synni_sajand + synni_aeg + jarjekorra_number
 
-    kontroll_number = 0
-    esimese_kaalu_summa = 0
-    for arg in range(len(esimene_kaalud)):
-        esimese_kaalu_summa = esimese_kaalu_summa + (esimene_kaalud[arg] * int(isikukood[arg]))
-    if esimese_kaalu_summa % 11 != 10:
-        kontroll_number = esimese_kaalu_summa % 11
-        isikukood += str(kontroll_number)
-    else:
-        teise_kaalu_summa = 0
-        for arg in range(len(teine_kaalud)):
-            teise_kaalu_summa = teise_kaalu_summa + (teine_kaalud[arg] * int(isikukood[arg]))
-        if teise_kaalu_summa % 11 != 10:
-            kontroll_number = teise_kaalu_summa % 11
-            isikukood += kontroll_number
-        else:
-            kontroll_number = 0
+    isikukood += str(arvuta_kontroll_number(isikukood))
+
     return isikukood
+
 
 if __name__ == "__main__":
     print(genereeri_isikukood())
